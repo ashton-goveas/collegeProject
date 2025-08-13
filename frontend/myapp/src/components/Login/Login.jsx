@@ -1,76 +1,90 @@
 import React, { useState } from "react";
-import "./login.css";
+import logo from "./logo.png"; // Ensure the path is correct
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!email || !password) {
-      setError("Please enter both email and password.");
-      return;
-    }
-    setError("");
-    // TODO: Add authentication logic here
-    alert(`Logged in as ${email}`);
-  };
+export default function GlowCodeLogin() {
+  const [isLogin, setIsLogin] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f4f6fb', position: 'relative' }}>
-      <div className="project-title" style={{ position: 'absolute', top: 24, left: 32, margin: 0 }}>Glow Code</div>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <div className="login-container">
-          <h2>Login</h2>
-          <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: 16 }}>
-              <label htmlFor="email">Email:</label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                style={{ width: "100%", padding: 8, marginTop: 4 }}
-                required
-              />
-            </div>
-            <div style={{ marginBottom: 16 }}>
-              <label htmlFor="password">Password:</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                style={{ width: "100%", padding: 8, marginTop: 4 }}
-                required
-              />
-            </div>
-            {error && <div style={{ color: "red", marginBottom: 12 }}>{error}</div>}
+    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-[#1e1e1e] rounded-2xl shadow-2xl p-8 border border-yellow-500">
+        {/* Logo */}
+        <div className="flex justify-center mb-6">
+          <img
+            src={logo}
+            alt="Glow-Code Logo"
+            className="w-24 h-24 object-contain"
+          />
+        </div>
+
+        {/* Heading */}
+        <h2 className="text-3xl font-bold text-center text-yellow-400 mb-8">
+          {isLogin ? "Login to Glow-Code" : "Register on Glow-Code"}
+        </h2>
+
+        {/* Form */}
+        <form className="space-y-5">
+          {!isLogin && (
+            <input
+              type="text"
+              placeholder="Full Name"
+              className="w-full px-4 py-2 rounded-lg bg-black border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              required
+            />
+          )}
+
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full px-4 py-2 rounded-lg bg-black border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            required
+          />
+
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              className="w-full px-4 py-2 rounded-lg bg-black border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              required
+            />
             <button
-              type="submit"
-              style={{
-                width: "100%",
-                padding: 10,
-                background: "#1976d2",
-                color: "#fff",
-
-
-
-
-                
-                border: "none",
-                borderRadius: 4,
-                fontWeight: "bold",
-              }}
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-yellow-400 text-sm focus:outline-none hover:text-yellow-300"
             >
-              Login
+              {showPassword ? "Hide" : "Show"}
             </button>
-          </form>
+          </div>
+
+          {/* Forgot Password */}
+          {isLogin && (
+            <div className="text-right text-sm">
+              <button className="text-yellow-400 hover:underline">
+                Forgot Password?
+              </button>
+            </div>
+          )}
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 rounded-lg transition"
+          >
+            {isLogin ? "Login" : "Register"}
+          </button>
+        </form>
+
+        {/* Toggle Login/Register */}
+        <div className="mt-6 text-center text-sm">
+          {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+          <button
+            onClick={() => setIsLogin(!isLogin)}
+            className="text-yellow-400 font-medium hover:underline"
+          >
+            {isLogin ? "Register" : "Login"}
+          </button>
         </div>
       </div>
     </div>
   );
-};
-
-export default Login;
+}
